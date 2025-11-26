@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+  <link rel="stylesheet" href="UserRegisteration.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LEFT SIDE -->
+  <div class="left">
+    <div class="inner">
+      <img src="https://cdn.pixabay.com/photo/2013/09/23/04/36/hostel-185156_1280.jpg" class="icon">
+      <h2>Welcome</h2>
+      <p>You are 30 seconds away from joining us!</p>
+
+      <button class="login-btn" onclick="location.href='UserLogin.html'">
+        Login
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="right">
+
+    <div class="role-toggle">
+      <button class="active">Register</button>
+    </div>
+
+    <h2 class="title">Create Your Account</h2>
+
+    <form id="registerForm" class="form">
+
+      <div class="grid">
+        <input type="text" id="name" placeholder="First Name *" required>
+        <input type="text" id="lastName" placeholder="Last Name *" required>
+
+        <input type="email" id="email" placeholder="Email *" required>
+        <input type="number" id="mobile" placeholder="Phone *" required>
+
+        <input type="password" id="password" placeholder="Password *" required>
+        <input type="date" id="dob" required>
+
+        <select id="role" required>
+          <option value="">Select Role</option>
+          <option value="SUPERADMIN">Superadmin</option>
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+        </select>
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+    </form>
+
+  </div>
+
+</div>
+
+
+ <script>
+  const API = "http://localhost:8080";
+
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const user = {
+      name: document.getElementById("name").value,
+      lastName: document.getElementById("lastName").value,
+      dateOfBirth: document.getElementById("dob").value,
+      moNo: document.getElementById("mobile").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      role: document.getElementById("role").value
+    };
+
+    try {
+      const res = await fetch(`${API}/hostel/user/regigisration`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+
+      if (res.ok) {
+        alert("Registration Successful!");
+        window.location.href = "login.html";
+      } else {
+        const err = await res.text();
+        alert("Registration failed: " + err);
+      }
+    } catch (error) {
+      alert("Server error: " + error);
+    }
+  });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="UserLogin.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LEFT PANEL -->
+  <div class="left">
+    <div class="inner">
+      <img src="https://cdn.pixabay.com/photo/2013/09/23/04/36/hostel-185156_1280.jpg" class="icon">
+      <h2>Welcome Back!</h2>
+      <p>Login to access your hostel management dashboard.</p>
+
+      <button class="register-btn" onclick="location.href='UserRegisteration.html'">
+        Register
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right">
+
+    <h2 class="title">Login to Your Account</h2>
+
+    <form id="loginForm" class="form">
+
+      <div class="grid">
+        <input type="email" id="email" placeholder="Email *" required>
+        <input type="password" id="password" placeholder="Password *" required>
+      </div>
+
+      <button type="submit" class="login-submit-btn">Login</button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+  const API = "http://localhost:8080";
+
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const dto = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    };
+
+    const res = await fetch(`${API}/hostel/student/Login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dto)
+    });
+
+    if (res.ok) {
+      alert("Login Successful!");
+      window.location.href = "dashboard.html"; // redirect after success
+    } else {
+      alert("Invalid Email or Password!");
+    }
+  });
+</script>
+
+</body>
+</html>

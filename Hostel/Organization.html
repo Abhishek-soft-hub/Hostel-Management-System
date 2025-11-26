@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organization Registration</title>
+
+  <style>
+    /* Background Theme */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0155ca, #2575fc);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    .container {
+      width: 380px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(15px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 28px;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    label {
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 15px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #ffb100;
+      font-size: 16px;
+      cursor: pointer;
+      color: black;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ffd966;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .switch a {
+      color: #ffebcd;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>🌈 Welcome Hostel<br>Organization Registration</h2>
+
+    <label>Name</label>
+    <input id="name" type="text" placeholder="Enter organization name">
+
+    <label>Mobile Number</label>
+    <input id="mobile" type="number" placeholder="Enter mobile number">
+
+    <label>Email</label>
+    <input id="email" type="email" placeholder="Enter email">
+
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Enter password">
+
+    <button onclick="registerOrg()">Register</button>
+
+    <div class="switch">
+      Already have an account? <a href="OrganizationLogin.html">Login Here</a>
+    </div>
+  </div>
+
+<script>
+const API = "http://localhost:8080";
+
+async function registerOrg() {
+
+  const org = {
+    name: document.getElementById("name").value,
+    mobileNumber: document.getElementById("mobile").value,
+    email: document.getElementById("email").value,
+    password: document.getElementById("password").value
+  };
+
+  try {
+    const res = await fetch(`${API}/organization/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(org)
+    });
+
+    if (res.ok) {
+      alert("Organization Registered Successfully!");
+      window.location.href = "OrganizationLogin.html";
+    } else {
+      const err = await res.text();
+      alert("Registration Failed: " + err);
+    }
+
+  } catch (error) {
+    alert("Server Error: " + error);
+  }
+}
+</script>
+
+</body>
+</html>
